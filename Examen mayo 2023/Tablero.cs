@@ -41,6 +41,10 @@ namespace puzlogic {
         public void Render()
         {
             Console.Clear();
+            Console.ResetColor();
+           
+
+
             Console.ForegroundColor = ConsoleColor.Blue;
             
             // Falta hacer lo de marcar el cursor.
@@ -68,10 +72,7 @@ namespace puzlogic {
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"Pends: {pend.ToString()}");
-
-            Console.ResetColor();
-              
+            Console.Write($"Pends: {pend.ToString()}");   
         }
 
         public void MueveCursor(char c)

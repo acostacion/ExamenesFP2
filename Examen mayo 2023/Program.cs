@@ -29,6 +29,7 @@ namespace puzlogic
             {
                 ProcesaInput(tablero, ref c);
                 tablero.Render();
+                System.Threading.Thread.Sleep(200);
             }
         }
 
