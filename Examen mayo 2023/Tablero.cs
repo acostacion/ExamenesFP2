@@ -128,13 +128,37 @@ namespace puzlogic {
         public bool PonNumero (int num)
         {
             bool viable = NumViable(num);
+            bool numPuesto = false;
             
-            int i = 0;
-            while (i < pend.NumElems() && num != pend.C)
-            
+            if(viable && pend.BuscaDato(num))
+            {
+                tab[fil, col] = num;
+                pend.EliminaElto(num);
+                numPuesto = true;
+            }
 
-            if(viable && )
+            return numPuesto;
         }
+
+        public bool QuitaNumero()
+        {
+            bool numQuitado = false;
+
+            if (tab[fil,col] > 0 && fijas[fil,col] == false)
+            {
+                pend.InsertaFin(tab[fil,col]);
+                tab[fil,col] = 0;
+                numQuitado = true;
+            }
+
+            return numQuitado;
+        }
+
+        public bool FinJuego()
+        {
+            return pend.EsVacia();
+        }
+        
     }
 }        
         

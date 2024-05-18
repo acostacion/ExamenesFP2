@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Security;
 
 
 namespace puzlogic
@@ -19,8 +20,16 @@ namespace puzlogic
             // pendientes
             int [] pendEj =  new int[6] {4,5,6,4,5,6};
 
+            char c = LeeInput();
+
             Tablero tablero = new Tablero(tabEj, pendEj);
             tablero.Render();
+
+            while (!tablero.FinJuego() || c == 'q')
+            {
+                ProcesaInput(tablero, ref c);
+                tablero.Render();
+            }
         }
 
 		static char LeeInput(){		    			
@@ -48,6 +57,60 @@ namespace puzlogic
             }
 			return d;
 		}
+
+        static void ProcesaInput(Tablero tab, ref char c)
+        {
+            if(c == 'l' || c == 'r' || c== 'u' || c== 'd')
+            {
+                tab.MueveCursor(c);
+            }
+            else if (c == 's')
+            {
+                tab.QuitaNumero();
+            }
+            else if(c <= '1' && c >= '9') // O es sin las comillas?
+            {
+                tab.PonNumero((int)(c - '0'));
+            }
+        }
+
+        static void LeeNivel(string file, int[,] tb, int[] pd)
+        {
+            file = "level/ex.txt";
+            StreamReader f = new StreamReader(file);
+
+            // FILAS Y COLUMNAS.
+            string[] digs = f.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            int fil = int.Parse(digs[0]);
+            int col = int.Parse(digs[1]);
+
+            tb = new int[fil, col];
+
+            Array.Clear(digs, 0, digs.Length);
+
+            // TB.
+            for(int i = 0; i < tb.GetLength(0); i++)
+            {
+                digs = f.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                for (int j = 0; j < tb.GetLength(1); j++)
+                {
+                    tb[i, j] = int.Parse(digs[j]);
+                }
+
+                Array.Clear(digs,0,digs.Length);
+            }
+
+            // DIGS.
+            digs = f.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            for(int i = 0; i< digs.Length; i++)
+            {
+                pd[i] = int.Parse(digs[i]);
+            }
+
+        }
 
     }
 }
