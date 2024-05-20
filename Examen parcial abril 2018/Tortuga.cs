@@ -40,7 +40,66 @@ namespace Examen_parcial_abril_2018
 
         public void Render()
         {
+            // Dibuja el estado de la cuadrícula con los colores
+            // Se ocupan dos caracteres en pantalla.
+            for (int i = 0; i < cuadricula.GetLength(0); i++)
+            {
+                for (int j = 0; j < cuadricula.GetLength(1); j++)
+                {
+                    switch (cuadricula[i, j])
+                    {
+                        case Colores.Negro:
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.Write("  ");
+                            break;
 
+                        case Colores.Rojo:
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.Write("  ");
+                            break;
+                        case Colores.Verde:
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.Write("  ");
+                            break;
+                        case Colores.Azul:
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            Console.Write("  ");
+                            break;
+                    }
+                }
+                Console.WriteLine();
+            }
+
+            // Guarda la posición actual del cursor.
+            int currentLeft = Console.CursorLeft;
+            int currentTop = Console.CursorTop;
+
+            // Dibuja la tortuga en su posición con el color del pincel.
+            Console.SetCursorPosition(col * 2, fil);
+            switch (pincel)
+            {
+                case Colores.Negro:
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write("ºº");
+                    break;
+
+                case Colores.Rojo:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.Write("ºº");
+                    break;
+                case Colores.Verde:
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.Write("ºº");
+                    break;
+                case Colores.Azul:
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.Write("ºº");
+                    break;
+            }
+
+            // Restablece la posición del cursor al final de la cuadrícula.
+            Console.SetCursorPosition(currentLeft, currentTop);
+            Console.ResetColor();
         }
     }
 }
