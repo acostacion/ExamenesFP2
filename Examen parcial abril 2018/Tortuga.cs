@@ -101,5 +101,22 @@ namespace Examen_parcial_abril_2018
             Console.SetCursorPosition(currentLeft, currentTop);
             Console.ResetColor();
         }
+
+        private void Paso()
+        {
+            // Pinta el cuadrado en el que se encuentra la tortuga del color actual del pincel.
+            cuadricula[fil, col] = pincel;
+
+            // La tortuga avanza un paso de acuerdo a su orientación, siempre que no se salga de la cuadrícula.
+            if (dir == Dir.Up && fil >= 0) fil--;
+            else if (dir == Dir.Down && fil <= cuadricula.GetLength(0)) fil++;
+            else if (dir == Dir.Left && col >= 0) col--;
+            else if (dir == Dir.Right && col <= cuadricula.GetLength(1)) col++;
+        }
+
+        public void Avanza(int n)
+        {
+
+        }
     }
 }
