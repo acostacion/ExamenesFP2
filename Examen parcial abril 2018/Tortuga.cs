@@ -116,6 +116,63 @@ namespace Examen_parcial_abril_2018
 
         public void Avanza(int n)
         {
+            // La tortuga da n pasos.
+            for (int i = 0; i < n; i++) Paso();
+        }
+
+        public void Gira()
+        {
+            // Camba la orientación de la tortuga, girando 90º en el sentido horario.
+            switch (dir)
+            {
+                case Dir.Up:
+                    dir = Dir.Right; break;
+                case Dir.Right:
+                    dir = Dir.Down; break;
+                case Dir.Down:
+                    dir = Dir.Left; break;
+                case Dir.Left:
+                    dir = Dir.Up; break;
+            }
+        }
+
+        public void Limpia()
+        {
+            // Limpia la pantalla.
+            for (int i = 0; i < cuadricula.GetLength(0); i++)
+            {
+                for (int j = 0; j < cuadricula.GetLength(1); j++)
+                {
+                    cuadricula[i, j] = Colores.Negro;
+                }
+            }
+
+            // Sitúa la tortuga en (0, 0), mirando hacia abajo y con el pincel negro.
+            fil = 0;
+            col = 0;
+            dir = Dir.Down;
+            pincel = Colores.Negro;
+        }
+
+        public void RotaColor()
+        {
+            // Cambia cíclicamente el color del pincel.
+            switch (pincel)
+            {
+                case Colores.Negro:
+                    pincel = Colores.Rojo; break;
+                case Colores.Rojo:
+                    pincel = Colores.Verde; break;
+                case Colores.Verde:
+                    pincel = Colores.Azul; break;
+                case Colores.Azul:
+                    pincel = Colores.Negro; break;
+            }
+        }
+
+        public void Simetria()
+        {
+            Colores[,] aux = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
 
         }
     }
