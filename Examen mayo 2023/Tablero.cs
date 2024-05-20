@@ -12,87 +12,100 @@ namespace puzlogic {
         Lista pend;  // lista de dígitos pendientes
         int fil,col; // posición del cursor (fila y columna)
 
+        // FILAS Y COLUMNAS SIEMPRE CAMBIADAS EN EL CURSOR.
 
-        public Tablero(int[,] tb, int[] pd)
+        public Tablero(int[,] tb, int[] pd) // [DONE].
         {
+            // La matriz "fijas" será de las mismas dimensiones que tab.
             tab = new int [tb.GetLength(0), tb.GetLength(1)];
-            fijas = new bool[tb.GetLength(0), tb.GetLength(1)];
-            tab = tb;
+            fijas = new bool[tab.GetLength(0), tab.GetLength(1)];
 
+            // Inicializamos tab con los valores de tb***.
+            // Si hay hueco vacío (0) en tab -> true.
+            // Resto de casos -> false.
             for (int i = 0;  i < tb.GetLength(0); i++)
             {
                 for(int j = 0; j < tb.GetLength(1); j++)
                 {
+                    tab[i,j] = tb[i,j];
                     if (tab[i,j] == 0) fijas[i, j] = false;
                     else fijas[i, j] = true;
                 }
             }
 
+            // Creamos pend y le insertamos los números de pd.
             pend = new Lista();
-
             for(int i = 0; i < pd.Length; i++)
             {
-                pend.InsertaPpio(pd[i]);
+                pend.InsertaFin(pd[i]);
             }
 
-            Console.SetCursorPosition(0, 0); 
+            // Cursor a (0, 0)***.
+            fil = 0;
+            col = 0;
         }
+
 
         public void Render()
         {
             Console.Clear();
-            Console.ResetColor();
-           
+        
+            // Dibujamos el tablero desde SetCursorPosition(0, 0)***.
+            Console.SetCursorPosition(0, 0);
 
-
-            Console.ForegroundColor = ConsoleColor.Blue;
-            
-            // Falta hacer lo de marcar el cursor.
-            
+            // Escritura de tablero.
             for (int i = 0; i < tab.GetLength(0); i++)
             {
                 for (int j = 0; j < tab.GetLength(1); j++)
                 {
+                    // Color***.
+                    if (fijas[i, j]) Console.ForegroundColor = ConsoleColor.Blue;
+                    else Console.ForegroundColor = ConsoleColor.Yellow;
+
                     switch (tab[i,j])
                     {
                         case -1:
-                            Console.Write("  ");
-                            break;
-
+                            Console.Write("  "); break;
                         case 0:
-                            Console.Write(" ·");
-                            break;
-                        
+                            Console.Write(" ·"); break;
                         default:
-                            Console.Write($" {tab[i,j]}");
-                            break;
+                            Console.Write($" {tab[i,j]}"); break;
                     }
                 }
                 Console.WriteLine();
             }
 
+            // Lista de pendientes.
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"Pends: {pend.ToString()}");   
+            Console.Write($"Pends: {pend.ToString()}");
+
+            Console.ResetColor();
+
+            // Sitúo el cursor en la posición correspondiente***.
+            //Console.SetCursorPosition(col * 2 + 1, fil);
         }
 
         public void MueveCursor(char c)
         {
-            
-            if(c == 'l' && fil >= 0)
-            {
-                fil--;
-            }
-            else if (c == 'u' && col >= 0)
+            // HA SIDO CAMBIADO ENTERO***
+            // Hacer siempre representación de fil col en papel.
+            // En el cursor está cambiado.
+            if(c == 'l' && col > 0)
             {
                 col--;
             }
-            else if (c == 'r' && fil < tab.GetLength(1))
+            else if (c == 'u' && col > 0)
             {
-                fil++;
+                fil--;
             }
-            else if (c == 'd' && fil < tab.GetLength(0))
+            else if (c == 'r' && col < tab.GetLength(0) - 1)
             {
                 col++;
+            }
+            else if (c == 'd' && fil < tab.GetLength(1) - 1)
+            {
+                fil++;
             }
         }
 

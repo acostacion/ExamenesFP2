@@ -25,12 +25,11 @@ namespace puzlogic
             Tablero tablero = new Tablero(tabEj, pendEj);
             tablero.Render();
 
-            while (!tablero.FinJuego() || c == 'q')
+            /*while (!tablero.FinJuego() || c == 'q')
             {
                 ProcesaInput(tablero, ref c);
                 tablero.Render();
-                System.Threading.Thread.Sleep(200);
-            }
+            }*/
         }
 
 		static char LeeInput(){		    			
