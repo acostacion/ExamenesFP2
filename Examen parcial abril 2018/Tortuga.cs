@@ -172,9 +172,10 @@ namespace Examen_parcial_abril_2018
             }
         }
 
-        public void Simetria()
+        public void Simetria() // TODO.
         {
-            Colores[,] aux = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
+            Colores[,] auxFils = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
+            Colores[,] auxCols = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
 
         }
     }
