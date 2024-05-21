@@ -40,6 +40,7 @@ namespace Examen_parcial_abril_2018
 
         public void Render()
         {
+            Console.Clear();
             // Dibuja el estado de la cuadrícula con los colores
             // Se ocupan dos caracteres en pantalla.
             for (int i = 0; i < cuadricula.GetLength(0); i++)
@@ -108,10 +109,11 @@ namespace Examen_parcial_abril_2018
             cuadricula[fil, col] = pincel;
 
             // La tortuga avanza un paso de acuerdo a su orientación, siempre que no se salga de la cuadrícula.
-            if (dir == Dir.Up && fil >= 0) fil--;
-            else if (dir == Dir.Down && fil <= cuadricula.GetLength(0)) fil++;
-            else if (dir == Dir.Left && col >= 0) col--;
-            else if (dir == Dir.Right && col <= cuadricula.GetLength(1)) col++;
+            // LO HAS HECHO MAL. RECUERDA. PARA EL 0 (> o <) Y PARA EL GETLENGTH (> o <) PERO CON -1.
+            if (dir == Dir.Up && fil > 0) fil--;
+            else if (dir == Dir.Down && fil < cuadricula.GetLength(0) -1) fil++;
+            else if (dir == Dir.Left && col > 0) col--;
+            else if (dir == Dir.Right && col < cuadricula.GetLength(1) -1) col++;
         }
 
         public void Avanza(int n)
