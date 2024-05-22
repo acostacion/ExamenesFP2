@@ -31,6 +31,9 @@ namespace puzlogic {
 
                     // Si es 0, en fijas es false.
                     if (tab[i, j] == 0 ) fijas[i,j] = false;
+                    else fijas[i,j] = true; 
+
+                    // [NOTA MENTAL] EN CASO DE NO ESTAR INICIALIZADO TENER EN CUENTA TODOS TODOS TODOS LOS CASOS.
                 }
             }
 
@@ -49,33 +52,46 @@ namespace puzlogic {
             // [NOTA MENTAL] Antes de fregar hay que barrer.
             Console.Clear();
 
+            Console.CursorVisible = false;
             // [NOTA MENTAL] Tengan ustedes cuidado con el Cursor del dibujante porque funciona tal que así: CursorPosition(columna, fila);. Que no te engañen.
             // [NOTA MENTAL] El cursor suele ir al principio de las lineas de código. SUELE. NO SIEMPRE.
             // [NOTA MENTAL] A la hora de representar ten cuidao porque las casillas son dobles (dobles o lo que surja).
             // [CUIDAO] si falla se cambia.
-            Console.SetCursorPosition(col * 2 , fil);
+            // [NOTA MENTAL] EL CONSOLECURSOR POSITION ES UNA MENTIRA, NO ES LO MISMO QUE EL CURSOR DE INGAME.
+            // [NOTA MENTAL] HAY QUE TENER CUIDADO CON RESETCOLOR PORQUE TE PUEDE ESTROPEAR TODO.
 
             // [NOTA MENTAL] almost cada render suele tener dos casillas "**" pero fíjate bien, puede que no.
-            Console.ForegroundColor = ConsoleColor.Blue;
+            
             for (int i = 0; i < tab.GetLength(0); i++)
             {
                 for(int j = 0; j < tab.GetLength(1); j++)
                 {
-                    switch (tab[i, j])
+                    if (i == fil && j == col) Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                    else Console.BackgroundColor = ConsoleColor.Black;
+
+                    if (tab[i, j] == -1)
                     {
-                        case -1:
-                            Console.Write("  "); break;
-                        case 0:
-                            Console.Write(" ·"); break;
-                        default:
-                            Console.Write($" {tab[i, j]}"); break;
-                            //Console.Write(" " + tab[i, j]);
+                        Console.Write("  ");
+                    }
+                    else if (tab[i, j] == 0)
+                    {
+                        // [NOTA MENTAL] Vamos a ver, si no atina a salite de una manera, mete la línea donde puedas y si cuela cuela. Si no es arriba es abajo el caso es llegar al Tajo.
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write(" ·");
+                    }
+                    else
+                    {
+                        // [NOTA MENTAL] No seas cipota y cuando no hay que ahorrar líneas no ahorres. Asegúrate el culo y luego actúa, espabila. Sé consecuente y mira los casos.
+                        if (fijas[i, j] == false) Console.ForegroundColor = ConsoleColor.Yellow;
+                        else Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write($" {tab[i, j]}");
                     }
                 }
                 // [NOTA MENTAL] ¡ojo! no olviden, tras cada línea, se baja a la siguiente. Si no, sale la carretera de la Ossa de Montiel.
                 Console.WriteLine();
             }
 
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"\nPends: {pend.ToString()}");
 
@@ -142,6 +158,13 @@ namespace puzlogic {
         public bool FinJuego()
         {
             return pend.EsVacia();
+        }
+
+        public Lista PosiblesRec()
+        {
+            Lista lista = new Lista();
+
+            
         }
     }
 }        

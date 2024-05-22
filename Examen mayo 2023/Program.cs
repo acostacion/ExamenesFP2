@@ -8,38 +8,49 @@ namespace puzlogic
     {
         static void Main()
         {       
-            // ejemplo del enunciado
-            // tablero    
-            int [,] tabEj = new int[5,5]
-                  {{ 0,-1, 0,-1, 5},
+            char c = LeeInput();
+            string file = "ex.txt";
+
+            Tablero t;
+
+            Console.Clear();
+            Console.Write("¡Hola!, ¿desea plantilla o archivo? 1/2");
+
+            // Crea nivel leyendo.
+            if(int.Parse(Console.ReadLine()) == 1)
+            {
+                LeeNivel(file, out int[,] tb, out int[] pd);
+
+                t = new Tablero(tb, pd);
+            }
+
+            // Crea nivel tableando.
+            else 
+            {
+                // ejemplo del enunciado
+                // tablero    
+                int[,] tabEj = new int[5, 5]
+                      {{ 0,-1, 0,-1, 5},
                    {-1, 3,-1, 0,-1},
                    { 6,-1,-1,-1, 0},
                    {-1, 0,-1, 6,-1},
                    { 5,-1, 4,-1, 0}};
-            // pendientes
-            int [] pendEj =  new int[6] {4,5,6,4,5,6};
+                // pendientes
+                int[] pendEj = new int[6] { 4, 5, 6, 4, 5, 6 };
 
-            char c = LeeInput();
-            string file = "ex.txt";
-
-            Tablero t = new Tablero();
-
-            Console.Write("¡Hola!, ¿desea plantilla o archivo? 1/2");
-            if(int.Parse(Console.ReadLine()) == 1)
-            {
                 t = new Tablero(tabEj, pendEj);
-            }
-            else if (int.Parse(Console.ReadLine()) == 2)
-            {
-                LeeNivel(file, out int[,] tb, out int[] pb);
             }
 
             t.Render();
 
+            // [NOTA MENTAL] EL INPUT SE LEE FUERA Y DENTRO COMO EL RENDER.
+            // RENDER METE RENDER SACA, INPUT METE INPUT SACA.
             while (!t.FinJuego() || c == 'q')
             {
+                c = LeeInput();
                 ProcesaInput(t, c);
                 t.Render();
+                Thread.Sleep(200);
             }
             
         }
@@ -86,36 +97,31 @@ namespace puzlogic
 
         static void LeeNivel(string file, out int[,] tb, out int[] pd)
         {
-            if(File.Exists(file))
+            StreamReader sr = new StreamReader(file);
+            string[] filcol = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            tb = new int[int.Parse(filcol[0]), int.Parse(filcol[1])];
+
+            // Cosa turbia.
+            for (int i = 0; i < tb.GetLength(0); i++)
             {
-                StreamReader sr = new StreamReader(file);
-                string[] filcol = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                tb = new int[int.Parse(filcol[0]), int.Parse(filcol[1])];
+                // Trocea la línea y la lee. ¿Se sobreescribe?
+                string[] tablero = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-                // Cosa turbia.
-                for(int i = 0; i < tb.GetLength(0); i++)
+                for (int j = 0; j < tb.GetLength(1); j++)
                 {
-                    // Lee la línea.
-                    sr.ReadLine();
-                    // Trocea la línea. ¿Se sobreescribe?
-                    string[] tablero = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-                    for (int j = 0; j < tb.GetLength(1); j++)
-                    {
-                        // Mete de una en una la línea.
-                        tb[i,j] = int.Parse(tablero[j]);
-                    }
-
-                    //for (int j = 0; j < tablero.Length; j++) tablero[j] = null;
+                    // Mete de una en una la línea.
+                    tb[i, j] = int.Parse(tablero[j]);
                 }
 
-                sr.ReadLine();
-                string[] pendientes = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-                for(int i = 0; i < pendientes.Length; i++) pd[i] = int.Parse(pendientes[i]);
-
-                sr.Close();
+                //for (int j = 0; j < tablero.Length; j++) tablero[j] = null;
             }
+
+            string[] pendientes = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            pd = new int[pendientes.Length];
+            for (int i = 0; i < pendientes.Length; i++) pd[i] = int.Parse(pendientes[i]);
+
+            sr.Close();
         }
 
     }
