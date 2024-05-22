@@ -27,7 +27,7 @@ namespace Examen_parcial_abril_2018
 
             string file = "comandos.txt";
 
-            char c = LeeInput();
+            
 
             while (c != 'q')
             {
@@ -101,12 +101,17 @@ namespace Examen_parcial_abril_2018
                 }
 
                 sr.Close();
-            }
-            
-
-
-
-            
+            }   
         }
+
+        static void EjecutaPrograma(Tortuga t, Programa p)
+        {
+            char c = LeeInput();
+            LeePrograma
+            ProcesaInput(t, ref c);
+            t.Render();
+        }
+
+
     }
 }

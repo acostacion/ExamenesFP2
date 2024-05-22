@@ -174,8 +174,16 @@ namespace Examen_parcial_abril_2018
 
         public void Simetria() // TODO.
         {
-            Colores[,] auxFils = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
-            Colores[,] auxCols = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
+            Colores[,] aux = new Colores[cuadricula.GetLength(0), cuadricula.GetLength(1)];
+
+            for(int i = cuadricula.GetLength(0) - 1; i >= 0; i--)
+            {
+                for(int j = cuadricula.GetLength(1) - 1; j >= 0; j--)
+                {
+                    aux[i, j] = cuadricula[i, j];
+                }
+            }
+            
 
         }
     }
