@@ -6,7 +6,7 @@ namespace Examen_septiembre_2016
     {
         Coor[] coors; // array con coordenadas
         int oc; // numero de eltos ocupados del array
-        public SetCoor(int tam = 10)
+        public SetCoor(int tam = 400)
         {
             coors = new Coor[tam];
             oc = 0;

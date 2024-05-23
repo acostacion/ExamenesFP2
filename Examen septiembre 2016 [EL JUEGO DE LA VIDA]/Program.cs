@@ -4,10 +4,9 @@ namespace Examen_septiembre_2016
 {
     internal class Program
     {
-        const int fils = 10;
-        const int cols = 10;
+        const int fils = 20;
+        const int cols = 20;
 
-        
         static void Main(string[] args)
         {
             string file = "folagor.txt";
@@ -19,12 +18,11 @@ namespace Examen_septiembre_2016
 
             while (!Estable(tablero, Siguiente(tablero)))
             {
-                tablero = Siguiente(tablero);
+                // Primero lo dibuja y luego lo sobreescribes.
                 Dibuja(Siguiente(tablero));
-                Thread.Sleep(200);
+                tablero = Siguiente(tablero);
+                Thread.Sleep(400);
             }
-
-
             
         }
 
@@ -52,6 +50,9 @@ namespace Examen_septiembre_2016
 
         static void Dibuja(bool[,] mat)
         {
+            // [NOTA MENTAL] Es muy importante antes de escribir en una pizarra de borrarla. Antes de fregar hay que barrer.
+            Console.Clear();
+                
             // [NOTA MENTAL] SIEMPRE es doble. TE LO HE ADIVINAO falso JAIME PANOLI.
             for(int i = 0; i < mat.GetLength(0); i++)
             {
@@ -74,6 +75,10 @@ namespace Examen_septiembre_2016
                 Console.WriteLine();
             }
 
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write(Convierte(mat).ToString());
+
             Console.ResetColor();
         }
 
@@ -82,11 +87,97 @@ namespace Examen_septiembre_2016
             // Decir cuántas células hay alrededor de mat[x,y].
             int cuentaCells = 0;
 
-            for( int i = y-1; i <= y+1; i++)
+            // Bordes.
+            if(y == 0 && x != 0 && x != mat.GetLength(1) - 1) // arriba.
             {
-                for (int j = x-1; i <= x+1; j++)
+                for (int i = y; i <= y + 1; i++)
                 {
-                    if (mat[i, j]) cuentaCells++;
+                    for (int j = x - 1; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            } 
+            else if (x == 0 && y!=0 && y != mat.GetLength(0)-1) // izquierda.
+            {
+                for (int i = y - 1; i <= y + 1; i++)
+                {
+                    for (int j = x; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            else if (y == mat.GetLength(0) - 1 && x!= 0 && x!=mat.GetLength(1)-1) // abajo.
+            {
+                for (int i = y - 1; i <= y; i++)
+                {
+                    for (int j = x - 1; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            else if (x == mat.GetLength(1) - 1 && y!= 0 && y!= mat.GetLength(0)-1) // derecha
+            {
+                for (int i = y - 1; i <= y + 1; i++)
+                {
+                    for (int j = x - 1; j <= x; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            // Esquinas.
+            else if(x == 0 && y == 0) // Esquina arriba izquierda.
+            {
+                for (int i = y; i <= y + 1; i++)
+                {
+                    for (int j = x; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            else if(x==0 && y == mat.GetLength(0) - 1) // Esquina abajo izquierda.
+            {
+                for (int i = y - 1; i <= y; i++)
+                {
+                    for (int j = x; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            else if(x== mat.GetLength(1) -1 && y == 0) // Esquina derecha arriba.
+            {
+                for (int i = y; i <= y + 1; i++)
+                {
+                    for (int j = x - 1; j <= x; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            else if(x == mat.GetLength(1)-1 && y == mat.GetLength(0) - 1) // Esquina abajo derecha.
+            {
+                for (int i = y - 1; i <= y; i++)
+                {
+                    for (int j = x - 1; j <= x; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
+                }
+            }
+            // Caso formal.
+            else
+            {
+                for (int i = y - 1; i <= y + 1; i++)
+                {
+                    for (int j = x - 1; j <= x + 1; j++)
+                    {
+                        if (mat[i, j]) cuentaCells++;
+                    }
                 }
             }
 
@@ -163,7 +254,8 @@ namespace Examen_septiembre_2016
             {
                 while(j < mat1.GetLength(1) && estabilidad)
                 {
-                    if (mat1[i, j] == mat2[i, j]) estabilidad = false;
+                    // Si son distintos deja de ser estable.
+                    if (mat1[i, j] != mat2[i, j]) estabilidad = false;
                     j++;
                 }
                 i++;
@@ -182,9 +274,11 @@ namespace Examen_septiembre_2016
 
             for(int i = 0; i < matrix.GetLength(0); i++)
             {
-                for(int j = 0; j < matrix.GetLength(0); j++)
+                // [NOTA MENTAL] Se lee la línea y luego se rellena.
+                string[] tab = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                for (int j = 0; j < matrix.GetLength(0); j++)
                 {
-                    string[] tab = sr.ReadLine().Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
                     if (int.Parse(tab[j]) == 1) matrix[i, j] = true;
                     else matrix[i, j] = false;
                 }
@@ -196,7 +290,7 @@ namespace Examen_septiembre_2016
             return matrix;
         }
 
-        static SetCoor Convierte(bool[,] matrix) // PENDIENTE DE REVISIÓN POR FALTA DE CLASES.
+        static SetCoor Convierte(bool[,] matrix) 
         {
             SetCoor coors = new SetCoor();
             for(int i = 0; i < matrix.GetLength(0); i++)
@@ -204,13 +298,19 @@ namespace Examen_septiembre_2016
                 for ( int j = 0; j < matrix.GetLength(1); j++)
                 {
                     Coor c = new Coor();
-                    c.SetX(i);
-                    c.SetY(j);
+                    c.SetX(i+1);
+                    c.SetY(j+1);
                     if (matrix[i, j]) coors.Add(c);
                 }
             }
 
             return coors;
         }
+
+        static int CuentaRec(SetCoor l)
+        {
+
+        }
+
     }
 }
