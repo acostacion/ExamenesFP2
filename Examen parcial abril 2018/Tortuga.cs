@@ -23,6 +23,8 @@ namespace Examen_parcial_abril_2018
 
         public void Render()
         {
+            // [NOTA MENTAL] No te olvides del clear porque antes de fregar hay que barrer.
+            Console.Clear();
             // [NOTA MENTAL] En el render no pongas set cursor position a no ser que
             // estés completamente segura.
 
@@ -35,17 +37,19 @@ namespace Examen_parcial_abril_2018
                     // representar personajes.
                     // 1. Vemos si i, j es la posición del Player.
                     // 2. Si no, pinta el fondo.
-                    if (i == fil && j == col) RenderColorPincel();
+                    if (i == fil && j == col) RenderCocoteLiso();
                     else RenderColorCuadricula(i, j);  
                 }
                 Console.WriteLine();
             }
+            // [NOTA MENTAL] Si no no deja de pintar nunca.
+            Console.ResetColor();
         }
 
         #region Métodos Render
         // [NOTA MENTAL] Las variables globales no meterlas en métodos auxiliares.
         // Lo blanco no se mete y lo azul si.
-        private void RenderColorPincel()
+        private void RenderCocoteLiso()
         {
             switch (pincel)
             {
@@ -58,7 +62,18 @@ namespace Examen_parcial_abril_2018
                 case Colores.Azul:
                     Console.BackgroundColor = ConsoleColor.Blue; break;
             }
-            Console.Write("ºº");
+            
+            switch (dir)
+            {
+                case Dir.Up:
+                    Console.Write("··"); break;
+                case Dir.Right:
+                    Console.Write(" :"); break;
+                case Dir.Down:
+                    Console.Write(".."); break;
+                case Dir.Left:
+                    Console.Write(": "); break;
+            }
         }
 
         private void RenderColorCuadricula(int i, int j)
@@ -128,10 +143,10 @@ namespace Examen_parcial_abril_2018
             else if (pincel == Colores.Azul) pincel = Colores.Negro;
         }
 
+        // [NOTA MENTAL] Memoriza simetría.
         public void Simetria()
         {
             Colores[,] traspuesta = new Colores[cuadricula.GetLength(1), cuadricula.GetLength(0)];
-
 
             // Hacer la traspuesta.
             for(int i = 0; i < cuadricula.GetLength(0); i++)
@@ -142,6 +157,8 @@ namespace Examen_parcial_abril_2018
                 }
             }
 
+            RedimensionaAarray(ref cuadricula, traspuesta.GetLength(0), traspuesta.GetLength(1));
+
             for(int i = 0; i<cuadricula.GetLength(0); i++)
             {
                 for(int j= 0; j< cuadricula.GetLength (1); j++)
@@ -150,5 +167,22 @@ namespace Examen_parcial_abril_2018
                 }
             }
         }
+
+        #region Métodos Simetría
+        private void RedimensionaAarray(ref Colores[,] mat, int fils, int cols)
+        {
+            // Creamos un array nuevo con la dimensión deseada.
+            Colores[,] aux = new Colores[fils, cols];
+            // Copia el contenido del viejo array al nuevo.
+            Array.Copy(mat, aux, mat.Length);
+            // [NOTA MENTAL] El array.copy es un metodo especial y dentro de SU mat.Length
+            // va el gl(1) y el gl(0).
+            mat = aux;
+        }
+        #endregion
+
+
     }
+
+
 }
