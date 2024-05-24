@@ -43,7 +43,7 @@ namespace Examen_parcial_abril_2018
                 }
                 else
                 {
-                    Cuadrado(3, cua);
+                    Cuadrado(5, cua);
                     LeePrograma(cua, out Programa p);
                     EjecutaPrograma(t, p);
 
