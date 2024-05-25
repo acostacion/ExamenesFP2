@@ -160,11 +160,33 @@ namespace puzlogic {
             return pend.EsVacia();
         }
 
-        public Lista PosiblesRec()
+        // [NOTA MENTAL] Poner las condiciones de un if o un bucle de mayor
+        // a menor limitancia.
+        public Lista PosiblesRecs(Lista listaRec, int i)
         {
-            Lista lista = new Lista();
+            // si el indice es menor que 9 (sigue habiendo datos que comprobar)
+            // si el elemento i no esta ya en la lista
+            if (i <= 9 && !listaRec.BuscaDato(i))
 
-            
+
+            {
+                // si SÍ es viable -> lo añades y sigues buscando
+                if (NumViable(i))
+                {
+                    listaRec.InsertaFin(i);
+                    PosiblesRecs(listaRec, i++);
+                }
+                // si NO es viable -> no lo añades y sigues buscando 
+                else
+                {
+                    PosiblesRecs(listaRec, i++);
+                }
+            }
+
+            // una vez no tenga que entrar en el if, ya devuelves la lista
+            // acabará cuando ya no deba seguir rellenando la lista,
+            // hasta entonces no devuelve nada porque nunca llega al return
+            return listaRec;
         }
     }
 }        

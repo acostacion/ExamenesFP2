@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Examen_parcial_Final_junio_2016
 {
@@ -6,11 +7,42 @@ namespace Examen_parcial_Final_junio_2016
     {
         static void Main(string[] args)
         {
-           
+            while (!QRValido(GeneraQRAleatorio()))
+            {
+                Console.WriteLine("Cargando...");
+            }
+            Dibuja(GeneraQRAleatorio());
+            Console.SetCursorPosition(0,0);
+            Dibuja(GeneraPatronFP());
+            Console.SetCursorPosition(14,0);
+            Dibuja(GeneraPatronFP());
+            Console.SetCursorPosition(0,14);
+            Dibuja(GeneraPatronFP());
+
+            Console.SetCursorPosition(21, 21);
         }
 
-        //static bool[,] GeneraQRAleatorio()
+        static bool[,] GeneraQRAleatorio()
+        {
+            // [NOTA MENTAL] Que el random no te engañe, es Next(0, 2) -> [0, 2).
+            Random rnd = new Random();
+            bool[,] bools = new bool[21, 21];
 
+            // TRUE negro
+            // FALSE blanco
+            for (int i = 0; i < bools.GetLength(0); i++)
+            {
+                for (int j = 0; j < bools.GetLength(1); j++)
+                {
+                    // Si sale 0 -> false.
+                    // Si sale 1 -> true.
+                    if (rnd.Next(0, 2) == 0) bools[i, j] = false;
+                    else bools[i, j] = true;
+                }
+            }
+
+            return bools;
+        }
 
         static void Dibuja(bool[,] qr)
         {
@@ -20,7 +52,7 @@ namespace Examen_parcial_Final_junio_2016
                 {
                     // [NOTA MENTAL] Para qué vas a hacer == true si qr[i, j] ya es true.
                     if (qr[i, j]) Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                    else Console.BackgroundColor = ConsoleColor.Black;
+                    else Console.BackgroundColor = ConsoleColor.DarkGray;
 
                     // [NOTA MENTAL] No te olvides de pintar.
                     Console.Write("  ");
@@ -120,34 +152,94 @@ namespace Examen_parcial_Final_junio_2016
             return hayPatron;
         }
 
-        static bool qrValido(bool[,] qr)
+        static bool QRValido(bool[,] qr)
         {
             // [NOTA MENTAL] Mejor esto que llamar 3 veces al método.
             bool[,] patron = GeneraPatronFP();
 
-            int i = -1;
-            int j = -1;
+            int i = 0;
+            int j = 0;
             bool hayBlanco = true;
 
-            
-
-            while (i <= patron.GetLength(0) && hayBlanco)
+            // franjas blancas.
+            while (i <= qr.GetLength(0) && hayBlanco)
             {
-                while (j <= patron.GetLength(1) && hayBlanco)
+                while (j <= qr.GetLength(1) && hayBlanco)
                 {
-                    if(i == -1 || i == patron.GetLength(0) // Si 
-                        || j == -1 || j == patron.GetLength(1) 
-                        && qr[i,j] == true)
+                    if ((j >= 0 && j <= 8 && i == 8)
+                        || (j >= 13 && j <= 21 && i == 8)
+                        || (j >= 0 && j <= 8 && i == 13)
+                        && qr[i,j])
                     {
                         hayBlanco = false;
                     }
                 }
             }
 
-            return EstaPatron(qr, patron, 0, 0) &&
-                   EstaPatron(qr, patron, 14, 0) &&
-                   EstaPatron(qr, patron, 0, 14);
-            
+            // patron.
+            bool hayPatron = EstaPatron(qr, patron, 0, 0) &&
+                             EstaPatron(qr, patron, 14, 0) &&
+                             EstaPatron(qr, patron, 0, 14);
+
+            return hayPatron && hayBlanco;
         }
+
+        static void EscribeSalida(bool[,] qr, string file)
+        {
+            StreamWriter sw = new StreamWriter(file);
+
+            for(int i = 0; i < qr.GetLength(0); i++)
+            {
+                for( int j = 0; j < qr.GetLength(1); j++)
+                {
+                    sw.WriteLine(qr[i,j]);
+                }
+            }
+            sw.Close();
+        }
+
+        static bool[,] LeeEntrada(string file)
+        {
+            StreamReader sr = new StreamReader(file);
+
+            bool[,] qr = new bool[21,21];
+
+            for(int i = 0; i < File.ReadAllLines(file).Length; i++)
+            {
+                for(int j = 0; j < qr.GetLength(1); j++)
+                {
+                    qr[i, j] = bool.Parse(sr.ReadLine());
+                }
+            }
+
+            sr.Close();
+
+            return qr;
+        }
+
+        static SetCoor Convierte(bool[,] qr)
+        {
+            SetCoor setCoor = new SetCoor();
+
+            for(int i = 0; i< qr.GetLength(0); i++)
+            {
+                for(int j = 0; j < qr.GetLength(1); j++)
+                {
+                    if (qr[i, j])
+                    {
+                        Coor c = new Coor();
+                        c.X = j; c.Y = i;
+                        setCoor.Add(c);
+                    }
+                }
+            }
+
+            return setCoor;
+        }
+
+        //static int CuentaRec(ListaEnlazada l)
+        //{
+
+        //}
     }
 }
