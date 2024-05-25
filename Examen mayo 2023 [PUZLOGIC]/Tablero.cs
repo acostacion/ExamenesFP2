@@ -53,14 +53,14 @@ namespace puzlogic {
             Console.Clear();
 
             Console.CursorVisible = false;
-            // [NOTA MENTAL] Tengan ustedes cuidado con el Cursor del dibujante porque funciona tal que así: CursorPosition(columna, fila);. Que no te engañen.
-            // [NOTA MENTAL] El cursor suele ir al principio de las lineas de código. SUELE. NO SIEMPRE.
-            // [NOTA MENTAL] A la hora de representar ten cuidao porque las casillas son dobles (dobles o lo que surja).
+            // *[NOTA MENTAL] Tengan ustedes cuidado con el Cursor del dibujante porque funciona tal que así: CursorPosition(columna, fila);. Que no te engañen.
+            // *[NOTA MENTAL] El cursor suele ir al principio de las lineas de código. SUELE. NO SIEMPRE.
+            // *[NOTA MENTAL] A la hora de representar ten cuidao porque las casillas son dobles (dobles o lo que surja).
             // [CUIDAO] si falla se cambia.
-            // [NOTA MENTAL] EL CONSOLECURSOR POSITION ES UNA MENTIRA, NO ES LO MISMO QUE EL CURSOR DE INGAME.
-            // [NOTA MENTAL] HAY QUE TENER CUIDADO CON RESETCOLOR PORQUE TE PUEDE ESTROPEAR TODO.
+            // *[NOTA MENTAL] EL CONSOLECURSOR POSITION ES UNA MENTIRA, NO ES LO MISMO QUE EL CURSOR DE INGAME.
+            // *[NOTA MENTAL] HAY QUE TENER CUIDADO CON RESETCOLOR PORQUE TE PUEDE ESTROPEAR TODO.
 
-            // [NOTA MENTAL] almost cada render suele tener dos casillas "**" pero fíjate bien, puede que no.
+            // *[NOTA MENTAL] almost cada render suele tener dos casillas "**" pero fíjate bien, puede que no.
             
             for (int i = 0; i < tab.GetLength(0); i++)
             {

@@ -48,8 +48,9 @@ namespace puzlogic
             while (!t.FinJuego() || c == 'q')
             {
                 c = LeeInput();
-                ProcesaInput(t, c);
+                
                 t.Render();
+                ProcesaInput(t, c);
                 Thread.Sleep(200);
             }
             
