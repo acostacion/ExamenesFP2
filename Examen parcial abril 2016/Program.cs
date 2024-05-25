@@ -16,6 +16,8 @@ namespace sopa
 
     internal class Program
     {
+        string file = "torturesoup.txt";
+
         public static void Main()
         {
             // sopa de letras del ejemplo.
@@ -28,12 +30,8 @@ namespace sopa
                 "HTAVIONOR", "CGRTUITXB", 
                 "OROHFOVAZ", "CMPPMEVAN" };
 
-            Par[] prueba = Dirs();
-
-            for(int i = 0; i< prueba.Length; i++)
-            {
-                Console.WriteLine($"({prueba[i].x}, {prueba[i].y})");
-            }
+            Resuelve(s, s.tab);
+            
             
         }
 
@@ -75,10 +73,14 @@ namespace sopa
             {
                 for (int j = pos.x; j <= pal.Length; j += dir.x)
                 {
-                    if (s.tab[i][j] == pal[cont] && cont < pal.Length)
+                    if(i >= 0 && j>= 0)
                     {
-                        cont++;
+                        if (s.tab[i][j] == pal[cont] && cont < pal.Length)
+                        {
+                            cont++;
+                        }
                     }
+                    
                 }
             }
             return cont == pal.Length;
@@ -129,23 +131,39 @@ namespace sopa
         static void Resuelve(Sopa s, string[] pals)
         {
             bool terminado = false;
+            bool palabraEncontrada = false;
+            bool dirEncontrada = false;
+
             int i = 0;
             int j = 0;
-            int l = 0;
-
-            
+            int k = 0;
 
             while(i < s.alto && !terminado)
             {
                 while(j < s.ancho && !terminado)
                 {
-                    for (int k = 0; k < pals.Length; k++)
-                    {
-                        
-                        if (BuscaPal(s, pals[k], s.tab[i][j], ) && BuscaDir)
-                        {
+                    palabraEncontrada = false;
 
+                    while(k < pals.Length || !palabraEncontrada)
+                    {  
+                        Par pos = new Par();
+                        pos.x = j;
+                        pos.y = i;
+
+                        if (BuscaPal(s, pals[k], out pos, out Par dir))
+                        {
+                            Console.WriteLine($"Encontrada {pals[k]} en Posicion ({pos.x}, {pos.y})  direccion ({dir.x}, {dir.y})");
+                            palabraEncontrada = true;
                         }
+                        else if (i == s.alto && j == s.ancho && !palabraEncontrada)
+                        {
+                            Console.WriteLine($"No encontrada {pals[k]}");
+                            palabraEncontrada = false;
+                        }
+
+                        terminado = k == pals.Length;
+
+                        k++;
                     }
                     j++;
                 }
@@ -154,9 +172,31 @@ namespace sopa
             
         }
         
+        static void LeeSopa(string file, Sopa s, string[] pals)
+        {
+            StreamReader sr = new StreamReader(file);
 
-        
+            string line = sr.ReadLine();
+            s.alto = int.Parse(line);
+            line = sr.ReadLine();
+            s.ancho = int.Parse(line);
 
+            for(int i = 0; i <= s.alto; i++)
+            {
+                // [NOTA MENTAL] Los bucles anidados se reinician solos, te estás rayando.
+                for(int j = 0; j <= s.ancho; j++)
+                {
+                    s.tab[i] = sr.ReadLine();
+                }
+            }
+
+            pals = new string[int.Parse(Console.ReadLine())];
+
+            for(int i = 0; i < pals.Length; i++)
+            {
+                pals[i] = sr.ReadLine();
+            }
+        }
     }
 }
 
