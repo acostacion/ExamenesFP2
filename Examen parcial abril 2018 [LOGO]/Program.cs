@@ -23,7 +23,6 @@ namespace Examen_parcial_abril_2018
         {
             string file = "cocotesmooth.txt";
             string cua = "cua.txt";
-
             // [NOTA MENTAL] La misma tortuga vale para los tres, panoli.
             // lee el enunciado. Abre tu mente que no te raye la tortuga.
             Tortuga t = new Tortuga(9, 12);
@@ -35,28 +34,20 @@ namespace Examen_parcial_abril_2018
                 if(int.Parse(Console.ReadLine()) == 1)
                 {
                     LeePrograma(file, out Programa p);
-                    // [NOTA MENTAL] El bucle principal de abajo es cuando estás
-                    // en modo sandbox porque el Ejecuta lo que hace es, ejecutarlo.
-                    // y tu lo observas, no juegas.
                     EjecutaPrograma(t, p);
-                    
                 }
                 else
                 {
                     Cuadrado(5, cua);
                     LeePrograma(cua, out Programa p);
                     EjecutaPrograma(t, p);
-
-
                 }
             }
             else
             {
-                
                 t.Render();
                 char c = LeeInput();
 
-                // [NOTA MENTAL] El input va siempre dentro y fuera.
                 while (c != 'q')
                 {
                     // [NOTA MENTAL] Se renderiza antes de que se procesa.
