@@ -228,14 +228,12 @@ namespace Examen_septiembre_2016
                     }
                 }
             }
-
             return siguiente;
-
         }
 
         static bool Estable(bool[,] mat1, bool[,] mat2)
         {
-            bool estabilidad = true;
+
 
             // [NOTA MENTAL] En el momento en el que haya que hacer una comprobacion
             // booleana liviana suele o soliere ser un while ya que
@@ -248,6 +246,7 @@ namespace Examen_septiembre_2016
             // [NOTA MENTAL] Date cuenta que no puede hacerse estabilidad = false inicialmench
             // PORQUE:
             // SI HAY UNA UNIDAD DE FALSE EN UN MAR DE ESTABILIDAD SE NOS JODE EL TINGLADO.
+            bool estabilidad = true;
             int i = 0; int j = 0;
 
             while (i < mat1.GetLength(0) && estabilidad)
@@ -307,10 +306,7 @@ namespace Examen_septiembre_2016
             return coors;
         }
 
-        static int CuentaRec(SetCoor l)
-        {
-
-        }
+        
 
     }
 }
