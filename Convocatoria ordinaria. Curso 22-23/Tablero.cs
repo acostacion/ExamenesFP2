@@ -155,6 +155,7 @@ namespace puzlogic {
                 {
                     viable = false;
                 }
+                i++;
             }
             return viable && tab[fil, col] == 0;
         }
@@ -187,6 +188,11 @@ namespace puzlogic {
             return quitado;
         }
 
+        public bool FinJuego()
+        {
+            // Determina si se han puseto todos los números.
+            return pend.EsVacia();
+        }
     }
 }        
         
